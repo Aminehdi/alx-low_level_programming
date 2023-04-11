@@ -2,43 +2,44 @@
 #include "main.h"
 
 /**
- * **alloc_grid - creates a two dimensional array of ints
- * @width: width of the matrix
- * @height: height of the matrix
- *
- * Return: pointer to the created matrix (Success)
- * or NULL (Error)
- */
-int **alloc_grid(int width, int height)
+* *argstostr - concatenates all the arguments of the program
+* @ac: number of arguments
+* @av: array of arguments
+*
+* Return: Pointer to the new string (Success), NULL (Error)
+*/
+char *argstostr(int ac, char **av)
 {
-	int **array;
-	int i, j;
+	int i, j, k, len;
+	char *str;
 
-	if (height <= 0 || width <= 0)
+	if (ac == 0 || av == NULL)
 		return (NULL);
 
-	array = (int **) malloc(sizeof(int *) * height);
+	for (i = 0; i < ac; i++)
+	{
+		for (j = 0; av[i][j] != '\0'; j++)
+			len++;
+		len++;
+	}
 
-	if (array == NULL)
+	str = malloc(sizeof(char) * (len + 1));
+
+	if (str == NULL)
 		return (NULL);
-	for (i = 0; i < height; i++)
-	{
-		array[i] = (int *) malloc(sizeof(int) * width);
-		if (array[i] == NULL)
-		{
-			free(array);
-			for (j = 0; j <= i; j++)
-				free(array[j]);
-			return (NULL);
-		}
-	}
 
-	for (i = 0; i < height; i++)
+	k = 0;
+
+	for (i = 0; i < ac; i++)
 	{
-		for (j = 0; j < width; j++)
+		for (j = 0; av[i][j] != '\0'; j++)
 		{
-			array[i][j] = 0;
+			str[k] = av[i][j];
+			k++;
 		}
+		str[k] = '\n';
+		k++;
 	}
-	return (array);
+	
+	return (str);
 }
